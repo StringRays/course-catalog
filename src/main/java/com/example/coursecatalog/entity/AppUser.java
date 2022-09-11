@@ -1,7 +1,7 @@
 package com.example.coursecatalog.entity;
 
-
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,62 +21,57 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AppUser implements UserDetails {
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    @Column(nullable=false)
-    private String firstName;
-    @Column(nullable=false)
-    private String lastName;
-    @Column(nullable=false)
-    private String email;
-    @Column(nullable=false)
-    private String password;
+  @Column(nullable = false)
+  private String firstName;
+  @Column(nullable = false)
+  private String lastName;
+  @Column(nullable = false)
+  private String email;
+  @Column(nullable = false)
+  private String password;
 
-    @Enumerated(EnumType.STRING)
-    private AppUserRole role;  
+  @Enumerated(EnumType.STRING)
+  private AppUserRole role;
 
-    public AppUser(String firstName, String lastName, String email, String password){
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
+  public AppUser(String firstName, String lastName, String email, String password){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+    return Collections.singleton(authority);
+  }
 
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+  @Override
+  public String getUsername() {
+    return email;
+  }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 }

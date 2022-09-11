@@ -1,6 +1,6 @@
 package com.example.coursecatalog.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class AppUserController {
     private final AppUserService appUserService;
 
-    @GetMapping("/api/v1/course/registration")
+    @PostMapping("/api/v1/course/registration")
     public String register(@RequestBody AppUser appUser){
         return appUserService.register(appUser);
     }
